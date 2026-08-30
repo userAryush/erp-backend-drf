@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from Base.models import BaseModel
-from managers import UserManager
+from .managers import UserManager
 
 class Role(BaseModel):
     name = models.CharField(max_length=50, unique=True)
