@@ -1,28 +1,48 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import RegistrationSerializer, LoginSerializer, UserSerializer, UpdateProfileSerializer
+from .serializers import LoginSerializer, UserSerializer, UpdateProfileSerializer, AdminCreateUserSerializer, UserRole
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
+from .permissions import IsAdmin  # your custom role-based permission
+from .models import Role
 
 # Create your views here.
 
 
-class RegisterView(APIView):
-    permission_classes = [AllowAny]
+class AdminCreateUserView(APIView):
+    permission_classes = [IsAdmin]
 
     def post(self, request):
-        
-        # an obj holding raw input from client
-        serializer = RegistrationSerializer(data=request.data)
-        # is_valid validates data through RegisterSerializer validation logic
+        serializer = AdminCreateUserSerializer(data=request.data)
         if serializer.is_valid():
-            
-            serializer.save()
-            return Response({'message': 'Registration successful!'}, status=status.HTTP_201_CREATED)
-        return Response({'message': 'Registration failed!', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            user = serializer.save()
+            return Response(
+                UserSerializer(user).data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserRoleView(APIView):
+    def get_permissions(self):
+        if self.request.method == "POST":
+            return [IsAdmin()]
+        return [AllowAny()]
+    def get(self, request):
+        roles = Role.objects.all()
+        serializer = UserRole(roles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        serializer = UserRole(data=request.data)
+        if serializer.is_valid():
+            role = serializer.save()
+            return Response(
+                UserRole(role).data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
     permission_classes = [AllowAny]

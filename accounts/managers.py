@@ -1,6 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
 
-
 class UserManager(BaseUserManager):
     """
     Custom manager for the User model using email as the unique identifier.
@@ -26,6 +25,9 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
+        if "role" not in extra_fields:
+            from .models import Role   
+            extra_fields["role"], _ = Role.objects.get_or_create(name="admin")
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
