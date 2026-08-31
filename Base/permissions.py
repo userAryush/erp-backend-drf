@@ -9,27 +9,24 @@ class IsAdmin(BasePermission):
             and request.user.role
             and request.user.role.name.lower() == 'admin'
         )
+class HasRole(BasePermission):
+    required_role = None
 
-
-class IsInventoryManager(BasePermission):
     def has_permission(self, request, view):
-        return (
-            request.user.is_authenticated
-            and request.user.role.name.lower() == "inventory manager"
-        )
+        if not request.user.is_authenticated:
+            return False
+
+        return request.user.role.name.lower() == self.required_role
 
 
-class IsSalesManager(BasePermission):
-    def has_permission(self, request, view):
-        return (
-            request.user.is_authenticated
-            and request.user.role.name.lower() == "sales manager"
-        )
+class IsInventoryManager(HasRole):
+    required_role = "inventory manager"
 
 
-class IsSupplier(BasePermission):
-    def has_permission(self, request, view):
-        return (
-            request.user.is_authenticated
-            and request.user.role.name.lower() == "supplier"
-        )
+class IsSalesManager(HasRole):
+    required_role = "sales manager"
+
+
+class IsSupplier(HasRole):
+    required_role = "supplier"
+
