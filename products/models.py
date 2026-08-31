@@ -1,5 +1,5 @@
 from django.db import models
-from Base import BaseModel
+from Base.models import BaseModel
 # Create your models here.
 
 class Category(BaseModel):

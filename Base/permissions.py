@@ -16,6 +16,9 @@ class HasRole(BasePermission):
         if not request.user.is_authenticated:
             return False
 
+        if not request.user.role:
+            return False
+
         return request.user.role.name.lower() == self.required_role
 
 
@@ -30,3 +33,17 @@ class IsSalesManager(HasRole):
 class IsSupplier(HasRole):
     required_role = "supplier"
 
+class HasAnyRole(BasePermission):
+    allowed_roles = set()
+
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return False
+
+        if not request.user.role:
+            return False
+
+        return request.user.role.name.lower() in self.allowed_roles
+    
+class IsAdminOrInventoryManager(HasAnyRole):
+    allowed_roles = {"admin", "inventory manager"}
