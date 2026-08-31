@@ -9,8 +9,6 @@ from .permissions import IsAdmin  # your custom role-based permission
 from .models import Role
 
 # Create your views here.
-
-
 class AdminCreateUserView(APIView):
     permission_classes = [IsAdmin]
 

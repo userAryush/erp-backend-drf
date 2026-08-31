@@ -15,27 +15,6 @@ class UserRole(serializers.ModelSerializer):
         fields = ['id', 'name', 'description']
         read_only_fields = ['id']
 
-# class RegistrationSerializer(serializers.ModelSerializer):
-#     confirm_password = serializers.CharField(write_only=True)
-#     password = serializers.CharField(write_only=True)
-    
-#     class Meta:
-#         model = User
-#         fields = ['id', 'email', 'role', 'first_name', 'last_name', 'confirm_password', 'password']
-        
-
-#     def validate(self, attrs):
-#         password = attrs.get('password')
-#         confirm_password = attrs.get('confirm_password')
-
-#         if password != confirm_password:
-#             raise serializers.ValidationError("Passwords do not match.")
-
-#         return attrs
-
-#     def create(self, validated_data):
-#         validated_data.pop("confirm_password")
-#         return User.objects.create_user(**validated_data)
 
 
 class AdminCreateUserSerializer(serializers.ModelSerializer):
@@ -77,7 +56,4 @@ class LoginSerializer(serializers.Serializer):
 class UpdateProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [
-            "first_name",
-            "last_name",
-        ]
+        fields = ["first_name","last_name"]
