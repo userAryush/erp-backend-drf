@@ -1,4 +1,4 @@
-from .models import Category, Product
+from .models import Category, Product, Brand
 from rest_framework import serializers
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -13,5 +13,9 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
         read_only_fields = ['created_at', 'updated_at']
-        
-        
+
+class BrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brand
+        fields = ['id', 'name', 'description']
+        read_only_fields = ['id']
