@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # project apps
     'accounts',
     'products',
+    'suppliers'
 
     # other apps
     'rest_framework',
