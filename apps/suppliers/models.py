@@ -1,8 +1,8 @@
 from django.db import models
 
 from Base.models import BaseModel
-from accounts.models import User
-from products.models import Product
+from apps.accounts.models import User
+from apps.products.models import Product
 
 
 class Supplier(BaseModel):

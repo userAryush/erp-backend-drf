@@ -47,3 +47,6 @@ class HasAnyRole(BasePermission):
     
 class IsAdminOrInventoryManager(HasAnyRole):
     allowed_roles = {"admin", "inventory manager"}
+    
+class IsAdminOrSupplierManager(HasAnyRole):
+    allowed_roles = {"admin", "supplier"}
