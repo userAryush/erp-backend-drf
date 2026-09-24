@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.products',
     'apps.suppliers',
+    'apps.warehouse',
 
     # other apps
     'rest_framework',
