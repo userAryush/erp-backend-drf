@@ -6,13 +6,13 @@ from rest_framework.viewsets import ModelViewSet
 
 from .models import Supplier, SupplierProduct
 from .serializers import SupplierSerializer, SupplierProductSerializer
-from Base.permissions import IsAdminOrSupplier
+from Base.permissions import IsAdminOrSupplierManager
 
 
 class SupplierViewSet(ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
-    permission_classes = [IsAdminOrSupplier]
+    permission_classes = [IsAdminOrSupplierManager]
 
 
 class SupplierProductViewSet(ModelViewSet):
@@ -21,4 +21,4 @@ class SupplierProductViewSet(ModelViewSet):
         "product",
     )
     serializer_class = SupplierProductSerializer
-    permission_classes = [IsAdminOrSupplier]
+    permission_classes = [IsAdminOrSupplierManager]

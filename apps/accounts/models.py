@@ -3,8 +3,6 @@ from django.db import models
 from Base.models import BaseModel
 from .managers import UserManager
 from django.core.exceptions import ValidationError
-import uuid
-from time import timezone
 
 class Role(BaseModel):
     name = models.CharField(max_length=50, unique=True)
@@ -43,4 +41,7 @@ class User(AbstractUser, BaseModel):
     REQUIRED_FIELDS = []
     
     objects = UserManager()
+    
+    def __str__(self):
+        return f"{self.email} - {self.role.name}"
 
