@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.suppliers',
     'apps.warehouse',
     'apps.inventory',
+    'apps.purchase_orders',
 
     # other apps
     'rest_framework',
